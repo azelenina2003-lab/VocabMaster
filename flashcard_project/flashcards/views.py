@@ -85,27 +85,27 @@ def card_delete(request, pk):
     return render(request, 'flashcards/card_confirm_delete.html', {'card': card})
 
 # перелистывание карточек
-def study_pure(request, deck_id):
+from django.shortcuts import render, get_object_or_404
+from .models import Deck  # предполагается, что модель Deck определена в models.py
 
+def study(request, deck_id):
     deck = get_object_or_404(Deck, pk=deck_id)
     cards = list(deck.cards.all())  # все карточки колоды в виде списка
-    
-    
+
     try:
         current_index = int(request.GET.get('index', 0))
     except ValueError:
         current_index = 0
-    
+
     if current_index < 0:
         current_index = 0
     if cards and current_index >= len(cards):
         current_index = len(cards) - 1
-    
+
     show_definition = request.GET.get('show', 'false') == 'true'
-    
-    
+
     current_card = cards[current_index] if cards else None
-    
+
     context = {
         'deck': deck,
         'cards': cards,
