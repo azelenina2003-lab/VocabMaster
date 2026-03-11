@@ -1,0 +1,25 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Мои категории</h2>
+    <a href="{% url 'category_create' %}" class="btn btn-success">➕ Новая категория</a>
+</div>
+
+<div class="row">
+    {% for category in categories %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description|truncatechars:100 }}</p>
+                    <p class="text-muted">Записей: {{ category.entries.count }}</p>
+                    <a href="{% url 'category_detail' category.pk %}" class="btn btn-primary">Открыть</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Пока нет ни одной категории. <a href="{% url 'category_create' %}">Создай первую!</a></p>
+    {% endfor %}
+</div>
+{% endblock %}

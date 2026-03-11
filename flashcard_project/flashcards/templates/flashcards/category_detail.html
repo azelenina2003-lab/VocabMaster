@@ -1,0 +1,47 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>{{ category.name }}</h2>
+    <div>
+        <a href="{% url 'study' category.pk %}" class="btn btn-success">📖 Изучать</a>
+        <a href="{% url 'category_update' category.pk %}" class="btn btn-warning">✏️ Редактировать</a>
+        <a href="{% url 'category_delete' category.pk %}" class="btn btn-danger">🗑️ Удалить</a>
+    </div>
+</div>
+
+<p>{{ category.description }}</p>
+
+<hr>
+
+<h4>Записи</h4>
+<a href="{% url 'entry_create' category.pk %}" class="btn btn-primary mb-3">➕ Добавить запись</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Термин</th>
+            <th>Определение</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in entries %}
+        <tr>
+            <td>{{ entry.term }}</td>
+            <td>{{ entry.definition }}</td>
+            <td>
+                <a href="{% url 'entry_update' entry.pk %}" class="btn btn-sm btn-warning">✏️</a>
+                <a href="{% url 'entry_delete' entry.pk %}" class="btn btn-sm btn-danger">🗑️</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">В этой категории пока нет записей. Добавь первую!</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'category_list' %}" class="btn btn-secondary">← Назад к категориям</a>
+{% endblock %}

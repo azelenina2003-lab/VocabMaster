@@ -1,16 +1,13 @@
 from django.contrib import admin
+from .models import Category, Entry
 
-# Register your models here.
-from django.contrib import admin
-from .models import Deck, Card
-
-@admin.register(Deck)
-class DeckAdmin(admin.ModelAdmin):
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at')
     search_fields = ('name',)
 
-@admin.register(Card)
-class CardAdmin(admin.ModelAdmin):
-    list_display = ('term', 'deck', 'created_at')
-    list_filter = ('deck',)
+@admin.register(Entry)
+class EntryAdmin(admin.ModelAdmin):
+    list_display = ('term', 'category', 'created_at')
+    list_filter = ('category',)
     search_fields = ('term', 'definition')
