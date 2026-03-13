@@ -11,4 +11,7 @@ urlpatterns = [
     path('entry/<int:pk>/edit/', views.entry_update, name='entry_update'),
     path('entry/<int:pk>/delete/', views.entry_delete, name='entry_delete'),
     path('category/<int:category_id>/study/', views.study, name='study'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 ]
