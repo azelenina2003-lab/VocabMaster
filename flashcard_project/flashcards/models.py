@@ -4,7 +4,13 @@ from django.db import models
 from django.db import models
 from django.urls import reverse
 
+# импорт для добавления пользователя
+from django.db import models
+from django.contrib.auth.models import User
+
 class Category (models.Model):
+    # модель пользователя
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='categories', verbose_name='Пользователь') 
     """Колода карточек"""
     name = models.CharField('Название', max_length=200)
     description = models.TextField('Описание', blank=True)
