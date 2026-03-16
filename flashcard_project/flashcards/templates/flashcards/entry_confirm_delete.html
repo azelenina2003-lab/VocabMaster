@@ -1,0 +1,13 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<div class="alert alert-danger">
+    <h4>Вы уверены, что хотите удалить запись "{{ entry.term }}"?</h4>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Да, удалить</button>
+    <a href="{% url 'category_detail' entry.category.pk %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}
