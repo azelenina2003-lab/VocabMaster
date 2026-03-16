@@ -1,0 +1,61 @@
+{% extends 'flashcards/base.html' %}
+
+{% block content %}
+<h2>Тестирование: {{ category.name }}</h2>
+
+{% if entries %}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4 class="card-title">Термин:</h4>
+            <p class="lead">{{ current_entry.term }}</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="answer" class="form-label">Ваш ответ (определение):</label>
+                    <textarea class="form-control" id="answer" name="answer" rows="3" required>{{ user_answer }}</textarea>
+                </div>
+
+                {% if result is not None %}
+                    <div class="alert {% if result %}alert-success{% else %}alert-danger{% endif %}">
+                        {% if result %}
+                            ✅ Правильно! 
+                            (Правильных ответов всего: {{ current_entry.correct_count }})
+                        {% else %}
+                            ❌ Неправильно. Правильный ответ: <br>
+                            <strong>{{ current_entry.definition }}</strong>
+                            (Неправильных: {{ current_entry.wrong_count }})
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary">Проверить ответ</button>
+            </form>
+
+            <hr>
+
+            <div class="d-flex justify-content-between">
+                {% if current_index > 0 %}
+                    <a href="?index={{ current_index|add:"-1" }}" class="btn btn-outline-secondary">← Предыдущий термин</a>
+                {% else %}
+                    <button class="btn btn-outline-secondary" disabled>← Предыдущий</button>
+                {% endif %}
+
+                <span class="align-self-center">
+                    Термин {{ current_index|add:"1" }} из {{ total }}
+                </span>
+
+                {% if current_index < total|add:"-1" %}
+                    <a href="?index={{ current_index|add:"1" }}" class="btn btn-outline-secondary">Следующий термин →</a>
+                {% else %}
+                    <button class="btn btn-outline-secondary" disabled>Следующий →</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    <p>В этой категории нет записей.</p>
+{% endif %}
+
+<a href="{% url 'category_detail' category.pk %}" class="btn btn-secondary mt-3">Вернуться к категории</a>
+{% endblock %}
